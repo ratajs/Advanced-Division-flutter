@@ -586,13 +586,13 @@ class _MyHomePageState extends State<MyHomePage> {
 										),
 										onPressed: () {
 											if(fn2) {
-												n2 = filtern2("");
+												n2 = "1";
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: 0);
 											}
 											else {
-												n1 = filtern1("");
+												n1 = "0";
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: 0);
