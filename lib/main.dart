@@ -15,6 +15,8 @@ void main() {
 }
 
 String filtern1(String text) {
+	if(text=="")
+		return "";
 	if(text.length > 1 && text.indexOf("\u0305")==text.length - 2)
 		text = text.replaceFirst(RegExp(r'\u0305(r|\u0305)$'), "");
 	if(text.indexOf("r") > -1)
@@ -29,6 +31,8 @@ String filtern1(String text) {
 }
 
 String filtern2(String text) {
+	if(text=="")
+		return "";
 	text = text.replaceAll(",", ".").replaceAll(RegExp(r'[^\d\.]'), "").replaceFirst(RegExp(r'^0+'), "").replaceFirst(RegExp(r'^\.'), "0.").replaceFirst(RegExp(r'^$'), "0");
 	if(text.indexOf(".") < 0)
 		return text;
@@ -88,7 +92,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
 	bool fn2 = false;
-	String n1 = "0", n2 = "1";
+	String n1 = "", n2 = "";
 	TextEditingController n1field = TextEditingController(), n2field = TextEditingController(), resfield = TextEditingController();
 	ScrollController resScrollController = ScrollController();
 	FocusNode focus1 = new FocusNode(), focus2 = new FocusNode();
@@ -138,6 +142,10 @@ class _MyHomePageState extends State<MyHomePage> {
 															caretfromend = text.length - n1field.selection.end;
 															n1 = filtern1(text);
 															if(text.indexOf("=") > -1) {
+																if(n1=="")
+																	n1 = "0";
+																if(n2=="")
+																	n2field.text = n2 = "1";
 																resfield.text = calculate(n1, n2);
 																n1field.text = n1;
 																return;
@@ -153,15 +161,15 @@ class _MyHomePageState extends State<MyHomePage> {
 															n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
 														},
 														onSubmitted: (text) {
+															if(n1=="")
+																n1field.text = n1 = "0";
+															if(n2=="")
+																n2field.text = n2 = "1";
 															resfield.text = calculate(n1, n2);
 														}
 													)
 												),
 												onFocusChange: (focus) {
-													if(n1field.text=="")
-														n1field.text = n1;
-													if(n2field.text=="")
-														n2field.text = n2;
 													if(focus)
 														fn2 = false;
 												}
@@ -195,6 +203,10 @@ class _MyHomePageState extends State<MyHomePage> {
 															caretfromend = text.length - n2field.selection.end;
 															n2 = filtern2(text);
 															if(text.indexOf("=") > -1) {
+																if(n1=="")
+																	n1field.text = n1 = "0";
+																if(n2=="")
+																	n2 = "1";
 																resfield.text = calculate(n1, n2);
 																n2field.text = n2;
 																return;
@@ -210,15 +222,15 @@ class _MyHomePageState extends State<MyHomePage> {
 															n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 														},
 														onSubmitted: (text) {
+															if(n1=="")
+																n1field.text = n1 = "0";
+															if(n2=="")
+																n2field.text = n2 = "1";
 															resfield.text = calculate(n1, n2);
 														}
 													)
 												),
 												onFocusChange: (focus) {
-													if(n1field.text=="")
-														n1field.text = n1;
-													if(n2field.text=="")
-														n2field.text = n2;
 													if(focus)
 														fn2 = true;
 												}
@@ -246,6 +258,10 @@ class _MyHomePageState extends State<MyHomePage> {
 														maximumSize: const Size(60, 60)
 													),
 													onPressed: () {
+														if(n1=="")
+															n1field.text = n1 = "0";
+														if(n2=="")
+															n2field.text = n2 = "1";
 														resfield.text = calculate(n1, n2);
 													},
 													child: const Text("=")
@@ -292,14 +308,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"1"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"1"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"1"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"1"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -316,14 +332,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"2"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"2"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"2"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"2"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -340,14 +356,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"3"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"3"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"3"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"3"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -365,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
 												if(n2field.selection.start!=n2field.selection.end) {
-													n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.end));
+													n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+n2field.text.substring(n2field.selection.end));
 													n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 													n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
@@ -380,7 +396,7 @@ class _MyHomePageState extends State<MyHomePage> {
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
 												if(n1field.selection.start!=n1field.selection.end) {
-													n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.end));
+													n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+n1field.text.substring(n1field.selection.end));
 													n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 													n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -404,14 +420,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"4"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"4"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"4"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"4"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -428,14 +444,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"5"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"5"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"5"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"5"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -452,14 +468,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"6"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"6"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"6"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"6"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -477,13 +493,13 @@ class _MyHomePageState extends State<MyHomePage> {
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
 												if(n2field.selection.start!=n2field.selection.end) {
-													n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.end));
+													n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+n2field.text.substring(n2field.selection.end));
 													n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 													n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 												}
 												else if(caretfromend > 0) {
-													n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.end + 1));
+													n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+n2field.text.substring(n2field.selection.end + 1));
 													n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 													n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend + 1);
@@ -492,13 +508,13 @@ class _MyHomePageState extends State<MyHomePage> {
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
 												if(n1field.selection.start!=n2field.selection.end) {
-													n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.end));
+													n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+n1field.text.substring(n1field.selection.end));
 													n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 													n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
 												}
 												else if(caretfromend > 0) {
-													n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.end + 1));
+													n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+n1field.text.substring(n1field.selection.end + 1));
 													n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 													n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend + 1);
@@ -516,14 +532,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"7"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"7"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"7"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"7"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -540,14 +556,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"8"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"8"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"8"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"8"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -564,14 +580,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"9"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"9"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"9"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"9"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -586,14 +602,14 @@ class _MyHomePageState extends State<MyHomePage> {
 										),
 										onPressed: () {
 											if(fn2) {
-												n2 = "1";
-												n2field.text = n2;
+												n2 = "";
+												n2field.clear();
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: 0);
 											}
 											else {
-												n1 = "0";
-												n1field.text = n1;
+												n1 = "";
+												n1field.clear();
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: 0);
 											};
@@ -609,14 +625,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"."+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"."+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"."+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"."+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -633,14 +649,14 @@ class _MyHomePageState extends State<MyHomePage> {
 											int caretfromend;
 											if(fn2) {
 												caretfromend = n2field.text.length - n2field.selection.end;
-												n2 = filtern2(n2field.text.substring(0, n2field.selection.start)+"0"+n2field.text.substring(n2field.selection.end));
+												n2 = filtern2(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"0"+n2field.text.substring(n2field.selection.end));
 												n2field.text = n2;
 												FocusScope.of(context).requestFocus(focus2);
 												n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"0"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"0"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
@@ -660,7 +676,7 @@ class _MyHomePageState extends State<MyHomePage> {
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start)+"\u0305"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"\u0305"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
