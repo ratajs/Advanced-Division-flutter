@@ -132,6 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
 														controller: n1field,
 														focusNode: focus1,
 														autocorrect: false,
+														keyboardType: TextInputType.none,
 														style: GoogleFonts.andika(
 															fontSize: 24
 														),
@@ -193,6 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
 														controller: n2field,
 														focusNode: focus2,
 														autocorrect: false,
+														keyboardType: TextInputType.none,
 														style: GoogleFonts.andika(
 															fontSize: 24
 														),
