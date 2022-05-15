@@ -676,7 +676,7 @@ class _MyHomePageState extends State<MyHomePage> {
 											}
 											else {
 												caretfromend = n1field.text.length - n1field.selection.end;
-												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"\u0305"+n1field.text.substring(n1field.selection.end));
+												n1 = filtern1(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"r"+n1field.text.substring(n1field.selection.end));
 												n1field.text = n1;
 												FocusScope.of(context).requestFocus(focus1);
 												n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
