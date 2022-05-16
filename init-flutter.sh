@@ -11,5 +11,6 @@ ln -s ../../../../../../../icons/72.png ./advdiv/android/app/src/main/res/mipmap
 ln -s ../../../../../../../icons/48.png ./advdiv/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
 ln -s ../pubspec.yaml ./advdiv/pubspec.yaml
 ln -s ../README.md ./advdiv/README.md
+sed -i s/dk7:/dk8:/g ./advdiv/android/app/build.gradle
 cd advdiv
 flutter pub get
