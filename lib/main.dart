@@ -302,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
 									Container(
 										alignment: Alignment.center,
 										width: 360,
-										height: 480,
+										height: 500,
 										child: GridView.count(
 											primary: false,
 											crossAxisSpacing: 40,
