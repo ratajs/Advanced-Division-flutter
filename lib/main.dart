@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:window_size/window_size.dart';
 import 'package:advdiv/AdvDiv.dart';
 
 void main() {
