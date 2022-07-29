@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:window_size/window_size.dart';
 import 'package:advdiv/AdvDiv.dart';
 
 void main() {
@@ -153,7 +152,6 @@ class _MyHomePageState extends State<MyHomePage> {
 																			if(n2=="")
 																				n2field.text = n2 = "1";
 																			resfield.text = calculate(n1, n2);
-																			n2field.selection = TextSelection.collapsed(offset: 1);
 																			n1field.text = n1;
 																			return;
 																		};
@@ -171,10 +169,8 @@ class _MyHomePageState extends State<MyHomePage> {
 																		if(n1=="")
 																			n1field.text = n1 = "0";
 																		if(n2=="")
-																		n1field.selection = TextSelection.collapsed(offset: 1);
 																			n2field.text = n2 = "1";
 																		resfield.text = calculate(n1, n2);
-																		n2field.selection = TextSelection.collapsed(offset: 1);
 																	}
 																)
 															),
@@ -236,10 +232,8 @@ class _MyHomePageState extends State<MyHomePage> {
 																		if(n1=="")
 																			n1field.text = n1 = "0";
 																		if(n2=="")
-																		n1field.selection = TextSelection.collapsed(offset: 1);
 																			n2field.text = n2 = "1";
 																		resfield.text = calculate(n1, n2);
-																		n2field.selection = TextSelection.collapsed(offset: 1);
 																	}
 																)
 															),
