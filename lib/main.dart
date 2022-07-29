@@ -274,10 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
 																	if(n1=="")
 																		n1field.text = n1 = "0";
 																	if(n2=="")
-																	n1field.selection = TextSelection.collapsed(offset: 1);
 																		n2field.text = n2 = "1";
 																	resfield.text = calculate(n1, n2);
-																	n2field.selection = TextSelection.collapsed(offset: 1);
 																},
 																child: Text(
 																	"=",
@@ -848,7 +846,7 @@ class _MyHomePageState extends State<MyHomePage> {
 															if(n2=="") {
 																n2field.text = n2 = "0.";
 																FocusScope.of(context).requestFocus(focus2);
-																n2field.selection = TextSelection.collapsed(offset: 1);
+																n2field.selection = TextSelection.collapsed(offset: 2);
 																return;
 															};
 															FocusScope.of(context).requestFocus(focus1);
