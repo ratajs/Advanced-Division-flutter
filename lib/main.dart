@@ -1009,7 +1009,7 @@ class _MyHomePageState extends State<MyHomePage> {
 															if(n1field.selection.end >= n1field.text.length)
 																return;
 															FocusScope.of(context).requestFocus(focus1);
-															n1field.selection = TextSelection.collapsed(offset: n1field.selection.end + ((n1field.selection.end!=n2field.text.length && n1field.text[n1field.selection.end + 1]=="\u0305") ? 2 : 1));
+															n1field.selection = TextSelection.collapsed(offset: n1field.selection.end + ((n1field.selection.end + 1!=n1field.text.length && n1field.text[n1field.selection.end + 1]=="\u0305") ? 2 : 1));
 														};
 													},
 													child: Text(
