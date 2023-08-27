@@ -10,6 +10,7 @@ ln -s ../../../../../../../icons/96.png ./advdiv/android/app/src/main/res/mipmap
 ln -s ../../../../../../../icons/72.png ./advdiv/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
 ln -s ../../../../../../../icons/48.png ./advdiv/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
 ln -s ../../../../icons/app_icon.ico ./advdiv/windows/runner/resources/app_icon.ico
+ln -s ../google_fonts ./advdiv/google_fonts
 ln -s ../pubspec.yaml ./advdiv/pubspec.yaml
 ln -s ../README.md ./advdiv/README.md
 sed -i s/dk7:/dk8:/g ./advdiv/android/app/build.gradle

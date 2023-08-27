@@ -30,7 +30,7 @@ dependencies:
   advdiv:
     git:
       url: https://github.com/ratajs/Advanced-Division-dart.git
-      ref: 20cb0abf45516dba972c7b2a909ad5da422bd09e
+      ref: c47104eba07dc29e6f4764a32d5439d02c3e06ad
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git
@@ -58,3 +58,5 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - google_fonts/
