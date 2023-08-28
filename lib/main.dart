@@ -442,12 +442,12 @@ class _MyHomePageState extends State<MyHomePage> {
 																n2field.text = n2;
 															}
 															else if(n2field.selection.start > 0) {
-																if([n2field.selection.start, n2field.selection.start - 1].contains(n2field.text.indexOf("\u0305")))
-																	n2 = filter(n2field.text.replaceFirst("\u0305", "").substring(0, n2field.selection.start - (n2field.selection.start==n2field.text.indexOf("\u0305") ? 1 : 2))+n2field.text.replaceFirst("\u0305", "").substring(n2field.selection.end - (n2field.selection.start==n2field.text.indexOf("\u0305") ? 0 : 1)));
-																else if([caretfromend==0 ? "" : n2field.text[n2field.selection.start], n2field.text[n2field.selection.start - 1]].contains("\u0305"))
-																	n2 = filter((n2field.text.substring(0, n2field.selection.start - 1)+n2field.text.substring(n2field.selection.start - 1, n2field.selection.start + (caretfromend==0 ? 0 : 1)).replaceFirst("\u0305", "")+n2field.text.substring(n2field.selection.start + (caretfromend==0 ? 0 : 1))).substring(0, n2field.selection.start - ((caretfromend > 0 && n2field.text[n2field.selection.start]=="\u0305") ? 1 : 2))+n2field.text.substring(n2field.selection.end));
-																else
+																if(n2field.text[n2field.selection.start - 1]=="\u0305")
+																	n2 = filter(n2field.text.substring(0, n2field.selection.start - 2))+n2field.text.substring(n2field.selection.end);
+																else {
 																	n2 = filter(n2field.text.substring(0, n2field.selection.start - 1)+n2field.text.substring(n2field.selection.end));
+																	caretfromend = n2.length - n2field.selection.end + 1;
+																};
 																n2field.text = n2;
 															};
 															FocusScope.of(context).requestFocus(focus2);
@@ -461,12 +461,12 @@ class _MyHomePageState extends State<MyHomePage> {
 																n1field.text = n1;
 															}
 															else if(n1field.selection.start > 0) {
-																if([n1field.selection.start, n1field.selection.start - 1].contains(n1field.text.indexOf("\u0305")))
-																	n1 = filter(n1field.text.replaceFirst("\u0305", "").substring(0, n1field.selection.start - (n1field.selection.start==n1field.text.indexOf("\u0305") ? 1 : 2))+n1field.text.replaceFirst("\u0305", "").substring(n1field.selection.end - (n1field.selection.start==n1field.text.indexOf("\u0305") ? 0 : 1)));
-																else if([caretfromend==0 ? "" : n1field.text[n1field.selection.start], n1field.text[n1field.selection.start - 1]].contains("\u0305"))
-																	n1 = filter((n1field.text.substring(0, n1field.selection.start - 1)+n1field.text.substring(n1field.selection.start - 1, n1field.selection.start + (caretfromend==0 ? 0 : 1)).replaceFirst("\u0305", "")+n1field.text.substring(n1field.selection.start + (caretfromend==0 ? 0 : 1))).substring(0, n1field.selection.start - ((caretfromend > 0 && n1field.text[n1field.selection.start]=="\u0305") ? 1 : 2))+n1field.text.substring(n1field.selection.end));
-																else
+																if(n1field.text[n1field.selection.start - 1]=="\u0305")
+																	n1 = filter(n1field.text.substring(0, n1field.selection.start - 2)+n1field.text.substring(n1field.selection.end));
+																else {
 																	n1 = filter(n1field.text.substring(0, n1field.selection.start - 1)+n1field.text.substring(n1field.selection.end));
+																	caretfromend = n1.length - n1field.selection.end + 1;
+																};
 																n1field.text = n1;
 															};
 															FocusScope.of(context).requestFocus(focus1);
@@ -615,54 +615,40 @@ class _MyHomePageState extends State<MyHomePage> {
 														maximumSize: const Size(60, 60)
 													),
 													onPressed: () {
-														int caretfromend;
+														int cursorPos;
 														if(fn2) {
 															FocusScope.of(context).requestFocus(focus2);
-															caretfromend = n2field.text.length - n2field.selection.end;
+															cursorPos = n2field.selection.end;
 															if(n2field.selection.start!=n2field.selection.end) {
 																n2 = filter(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.end));
 																n2field.text = n2;
 															}
-															else if(caretfromend > 0) {
-																if([n2field.selection.start, n2field.selection.start + 1].contains(n2field.text.indexOf("\u0305"))) {
-																	n2 = filter(n2field.text.substring(0, n2field.selection.start)+n2field.text.replaceFirst("\u0305", "").substring(n2field.selection.end + (caretfromend==0 ? 0 : 1)));
-																	caretfromend--;
-																}
-																else if(caretfromend > 1 && [n2field.text[n2field.selection.start + 1], caretfromend==2 ? "" : (n2field.text[n2field.selection.start + 2])].contains("\u0305")) {
-																	n2 = filter(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.start + 1, n2field.selection.start + (caretfromend==2 ? 2 : 3)).replaceFirst("\u0305", "")+n2field.text.substring(n2field.selection.start + (caretfromend==2 ? 2 : 3)));
-																	caretfromend--;
-																}
+															else if(cursorPos < n2field.text.length) {
+																if(cursorPos + 1 < n2field.text.length && n2field.text[cursorPos + 1]=="\u0305")
+																	n2 = filter(n2field.text.substring(0, cursorPos)+n2field.text.substring(cursorPos + 2));
 																else
-																	n2 = filter(n2field.text.substring(0, n2field.selection.start)+n2field.text.substring(n2field.selection.end + 1));
+																	n2 = filter(n2field.text.substring(0, cursorPos)+n2field.text.substring(cursorPos + 1));
+																n2field.text = n2;
 															};
 															FocusScope.of(context).requestFocus(focus2);
-															n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
+															n2field.selection = TextSelection.collapsed(offset: cursorPos);
 														}
 														else {
 															FocusScope.of(context).requestFocus(focus1);
-															caretfromend = n1field.text.length - n1field.selection.end;
+															cursorPos = n1field.selection.end;
 															if(n1field.selection.start!=n1field.selection.end) {
 																n1 = filter(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.end));
 																n1field.text = n1;
 															}
-															else if(caretfromend > 0) {
-																if([n1field.selection.start, n1field.selection.start + 1].contains(n1field.text.indexOf("\u0305"))) {
-																	n1 = filter(n1field.text.substring(0, n1field.selection.start)+n1field.text.replaceFirst("\u0305", "").substring(n1field.selection.end + (caretfromend==0 ? 0 : 1)));
-																	caretfromend--;
-																}
-																else if(caretfromend > 1 && [n1field.text[n1field.selection.start + 1], caretfromend==2 ? "" : (n1field.text[n1field.selection.start + 2])].contains("\u0305")) {
-																	n1 = filter(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.start + 1, n1field.selection.start + (caretfromend==2 ? 2 : 3)).replaceFirst("\u0305", "")+n1field.text.substring(n1field.selection.start + (caretfromend==2 ? 2 : 3)));
-																	caretfromend--;
-																}
+															else if(cursorPos < n1field.text.length) {
+																if(cursorPos + 1 < n1field.text.length && n1field.text[cursorPos + 1]=="\u0305")
+																	n1 = filter(n1field.text.substring(0, cursorPos)+n1field.text.substring(cursorPos + 2));
 																else
-																	n1 = filter(n1field.text.substring(0, n1field.selection.start)+n1field.text.substring(n1field.selection.end + 1));
+																	n1 = filter(n1field.text.substring(0, cursorPos)+n1field.text.substring(cursorPos + 1));
 																n1field.text = n1;
-																FocusScope.of(context).requestFocus(focus1);
-																n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend + 1);
-																return;
 															};
 															FocusScope.of(context).requestFocus(focus1);
-															n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
+															n1field.selection = TextSelection.collapsed(offset: cursorPos);
 														};
 													},
 													child: Text(
@@ -919,18 +905,18 @@ class _MyHomePageState extends State<MyHomePage> {
 														maximumSize: const Size(60, 60)
 													),
 													onPressed: () {
-														int caretfromend;
+														int cursorPos;
 														if(fn2) {
 															if(n2=="") {
 																FocusScope.of(context).requestFocus(focus2);
 																return;
 															};
 															FocusScope.of(context).requestFocus(focus1);
-															caretfromend = n2field.text.length - n2field.selection.end;
+															cursorPos = n2field.text.length;
 															n2 = filter(n2field.text.substring(0, n2field.selection.start < 0 ? 0 : n2field.selection.start)+"r"+n2field.text.substring(n2field.selection.end));
 															n2field.text = n2;
 															FocusScope.of(context).requestFocus(focus2);
-															n2field.selection = TextSelection.collapsed(offset: n2.length - caretfromend);
+															n2field.selection = TextSelection.collapsed(offset: cursorPos + (n2field.text[cursorPos]=="\u0305" ? 1 : 0));
 														}
 														else {
 															if(n1=="") {
@@ -938,11 +924,11 @@ class _MyHomePageState extends State<MyHomePage> {
 																return;
 															};
 															FocusScope.of(context).requestFocus(focus2);
-															caretfromend = n1field.text.length - n1field.selection.end;
+															cursorPos = n1field.selection.end;
 															n1 = filter(n1field.text.substring(0, n1field.selection.start < 0 ? 0 : n1field.selection.start)+"r"+n1field.text.substring(n1field.selection.end));
 															n1field.text = n1;
 															FocusScope.of(context).requestFocus(focus1);
-															n1field.selection = TextSelection.collapsed(offset: n1.length - caretfromend);
+															n1field.selection = TextSelection.collapsed(offset: cursorPos + (n1field.text[cursorPos]=="\u0305" ? 1 : 0));
 														};
 													},
 													child: Text(
